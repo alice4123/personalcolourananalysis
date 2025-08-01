@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Personal Colour Analysis</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="upload-container">
+    <h1>Upload your image</h1>
+    <input type="file" id="imageInput" accept="image/*" />
+    <div class="preview">
+      <img id="imagePreview" src="" alt="Image Preview" />
+    </div>
+  </div>
+
+
+  <h2>Select your skin tone</h2>
+
+  <form action="/action_page.php">
+    <label for="favcolor">Select your favorite color:</label>
+    <input type="color" id="favcolor" name="favcolor" value="#ff0000">
+    <p><input type="submit" value="Submit"></p>
+  </form>
+
+  <h2>Select your eye colour</h2>
+
+  <form action="/action_page.php">
+    <label for="favcolor">Select your favorite color:</label>
+    <input type="color" id="favcolor" name="favcolor" value="#ff0000">
+    <p><input type="submit" value="Submit"></p>
+  </form>
+
+  <h2>Select your hair colour</h2>
+
+  <form action="/action_page.php">
+    <label for="favcolor">Select your favorite color:</label>
+    <input type="color" id="favcolor" name="favcolor" value="#ff0000">
+    <p><input type="submit" value="Submit"></p>
+  </form>
+
+  <script>
+    const imageInput = document.getElementById('imageInput');
+    const imagePreview = document.getElementById('imagePreview');
+
+    imageInput.addEventListener('change', function () {
+      const file = this.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function () {
+          imagePreview.src = reader.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+  </script>
+</body>
+</html>
