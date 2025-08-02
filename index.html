@@ -7,31 +7,49 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div class="upload-container">
-    <h1>Upload your image</h1>
-    <input type="file" id="imageInput" accept="image/*" />
-    <div class="preview">
-      <img id="imagePreview" src="" alt="Image Preview" />
+  <div class="container">
+    <div class="upload-container">
+      <h1>Personal Color Analysis</h1>
+      <p>Upload your image and select your natural colors to discover your seasonal palette</p>
+      
+      <div class="image-upload">
+        <input type="file" id="imageInput" accept="image/*" />
+        <div class="preview">
+          <img id="imagePreview" src="" alt="Image Preview" />
+        </div>
+      </div>
+    </div>
+
+    <div class="color-selection">
+      <h2>Select Your Natural Colors</h2>
+      <p>Use the color pickers below to select colors that match your natural features from your uploaded image.</p>
+
+      <form id="colourForm">
+        <div class="color-input-group">
+          <label for="skinTone">Skin Tone:</label>
+          <input type="color" id="skinTone" name="skinTone" value="#F4C2A1">
+          <div class="color-preview" id="skinPreview"></div>
+        </div>
+
+        <div class="color-input-group">
+          <label for="eyeColour">Eye Color:</label>
+          <input type="color" id="eyeColour" name="eyeColour" value="#8B4513">
+          <div class="color-preview" id="eyePreview"></div>
+        </div>
+
+        <div class="color-input-group">
+          <label for="hairColour">Hair Color:</label>
+          <input type="color" id="hairColour" name="hairColour" value="#654321">
+          <div class="color-preview" id="hairPreview"></div>
+        </div>
+
+        <button type="submit">Discover My Season</button>
+      </form>
     </div>
   </div>
 
-
-  <h2>Select your colours</h2>
-
-  <form id = "colourForm">
-    <label for="skinTone">Skin Tone:</label>
-    <input type="color" id="skinTone" name="skinTone" value="#ff0000">
-
-    <label for="eyeColour">Eye colour:</label>
-    <input type="color" id="eyeColour" name="eyeColour" value="#ff0000">
-
-    <label for="hairColour">Hair colour:</label>
-    <input type="color" id="hairColour" name="hairColour" value="#ff0000">
-
-    <button type="submit">Submit</button>
-  </form>
-
   <script>
+    // Image preview functionality
     const imageInput = document.getElementById('imageInput');
     const imagePreview = document.getElementById('imagePreview');
 
@@ -41,28 +59,198 @@
         const reader = new FileReader();
         reader.onload = function () {
           imagePreview.src = reader.result;
+          imagePreview.style.display = 'block';
         };
         reader.readAsDataURL(file);
       }
     });
 
-    // Handle form submit and redirect
-    document.getElementById('colourForm').addEventListener('submit', function(event){
+    // Color preview updates
+    function updateColorPreviews() {
+      document.getElementById('skinPreview').style.backgroundColor = document.getElementById('skinTone').value;
+      document.getElementById('eyePreview').style.backgroundColor = document.getElementById('eyeColour').value;
+      document.getElementById('hairPreview').style.backgroundColor = document.getElementById('hairColour').value;
+    }
 
-      event.preventDefault(); // Stop form from refreshing page
+    document.getElementById('skinTone').addEventListener('input', updateColorPreviews);
+    document.getElementById('eyeColour').addEventListener('input', updateColorPreviews);
+    document.getElementById('hairColour').addEventListener('input', updateColorPreviews);
 
-      const skin = document.getElementById('skinTone').value;
-      const eyes = document.getElementById('eyeColour').value;
-      const hair = document.getElementById('hairColour').value;
+    // Initialize color previews
+    updateColorPreviews();
 
-      // Example logic (you can customize this)
-      if (skin === "#fcd5b4" && eyes === "#6fa8dc" && hair === "#4b3832") {
-        window.location.href = "warm.html";
-      } else if (skin === "#ffe0bd" && eyes === "#000000") {
-        window.location.href = "cool.html";
+    // Color analysis system
+    function hexToRgb(hex) {
+      const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+      return result ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+      } : null;
+    }
+
+    function rgbToHsl(r, g, b) {
+      r /= 255;
+      g /= 255;
+      b /= 255;
+      const max = Math.max(r, g, b);
+      const min = Math.min(r, g, b);
+      let h, s, l = (max + min) / 2;
+
+      if (max === min) {
+        h = s = 0;
       } else {
-        window.location.href = "neutral.html";
+        const d = max - min;
+        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+        switch (max) {
+          case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+          case g: h = (b - r) / d + 2; break;
+          case b: h = (r - g) / d + 4; break;
+        }
+        h /= 6;
       }
+      return { h: h * 360, s: s * 100, l: l * 100 };
+    }
+
+    function analyzeColorCharacteristics(rgb) {
+      const hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
+      
+      return {
+        isWarm: rgb.r + rgb.g > rgb.b * 1.2, // More red/yellow than blue
+        isCool: rgb.b > rgb.r + rgb.g * 0.8,  // More blue than red/yellow
+        isLight: hsl.l > 60,
+        isDark: hsl.l < 40,
+        isBright: hsl.s > 60,
+        isSoft: hsl.s < 40,
+        lightness: hsl.l,
+        saturation: hsl.s,
+        hue: hsl.h
+      };
+    }
+
+    function categorizeEyeColor(rgb) {
+      const hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
+      
+      if (hsl.l > 70) {
+        if (hsl.h >= 180 && hsl.h <= 240) return 'light_blue';
+        if (hsl.h >= 120 && hsl.h <= 180) return 'light_green';
+        return 'light_grey';
+      } else if (hsl.l > 40) {
+        if (hsl.h >= 180 && hsl.h <= 240) return 'blue';
+        if (hsl.h >= 120 && hsl.h <= 180) return 'green';
+        if (hsl.h >= 20 && hsl.h <= 60) return 'hazel';
+        return 'grey';
+      } else {
+        if (hsl.h >= 20 && hsl.h <= 60) return 'brown';
+        return 'dark_brown';
+      }
+    }
+
+    function categorizeHairColor(rgb) {
+      const hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
+      
+      if (hsl.l > 70) return 'very_light_blonde';
+      if (hsl.l > 50) return 'light_blonde';
+      if (hsl.l > 35) return 'medium_blonde';
+      if (hsl.l > 20) return 'dark_blonde';
+      if (hsl.l > 15) return 'light_brown';
+      if (hsl.l > 10) return 'medium_brown';
+      return 'dark_brown';
+    }
+
+    function categorizeSkinTone(rgb) {
+      const hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
+      
+      if (hsl.l > 80) return 'fair';
+      if (hsl.l > 60) return 'light';
+      if (hsl.l > 40) return 'medium';
+      if (hsl.l > 25) return 'tan';
+      return 'dark';
+    }
+
+    function determineSeasonalPalette(skinColor, eyeColor, hairColor) {
+      const skinRgb = hexToRgb(skinColor);
+      const eyeRgb = hexToRgb(eyeColor);
+      const hairRgb = hexToRgb(hairColor);
+
+      const skinChar = analyzeColorCharacteristics(skinRgb);
+      const eyeChar = analyzeColorCharacteristics(eyeRgb);
+      const hairChar = analyzeColorCharacteristics(hairRgb);
+
+      const eyeCategory = categorizeEyeColor(eyeRgb);
+      const hairCategory = categorizeHairColor(hairRgb);
+      const skinCategory = categorizeSkinTone(skinRgb);
+
+      // Analyze overall characteristics
+      const isOverallWarm = (skinChar.isWarm ? 1 : 0) + (eyeChar.isWarm ? 1 : 0) + (hairChar.isWarm ? 1 : 0) >= 2;
+      const isOverallCool = (skinChar.isCool ? 1 : 0) + (eyeChar.isCool ? 1 : 0) + (hairChar.isCool ? 1 : 0) >= 2;
+      const isOverallLight = (skinChar.isLight ? 1 : 0) + (eyeChar.isLight ? 1 : 0) + (hairChar.isLight ? 1 : 0) >= 2;
+      const isOverallDark = (skinChar.isDark ? 1 : 0) + (eyeChar.isDark ? 1 : 0) + (hairChar.isDark ? 1 : 0) >= 2;
+      const isOverallBright = (skinChar.isBright ? 1 : 0) + (eyeChar.isBright ? 1 : 0) + (hairChar.isBright ? 1 : 0) >= 2;
+      const isOverallSoft = (skinChar.isSoft ? 1 : 0) + (eyeChar.isSoft ? 1 : 0) + (hairChar.isSoft ? 1 : 0) >= 2;
+
+      // Determine season based on characteristics and specific feature combinations
+      
+      // Winter seasons - generally cool, high contrast
+      if (isOverallCool && (isOverallDark || isOverallBright)) {
+        if (isOverallDark && isOverallBright) return 'true-winter';
+        if (isOverallBright) return 'bright-winter';
+        if (isOverallDark) return 'dark-winter';
+      }
+
+      // Summer seasons - generally cool and soft
+      if (isOverallCool && (isOverallLight || isOverallSoft)) {
+        if (isOverallLight && !isOverallDark) return 'light-summer';
+        if (isOverallSoft) return 'soft-summer';
+        return 'true-summer';
+      }
+
+      // Autumn seasons - generally warm and deep/soft
+      if (isOverallWarm && (isOverallDark || isOverallSoft)) {
+        if (isOverallSoft && !isOverallBright) return 'soft-autumn';
+        if (isOverallDark) return 'dark-autumn';
+        return 'true-autumn';
+      }
+
+      // Spring seasons - generally warm and light/bright
+      if (isOverallWarm && (isOverallLight || isOverallBright)) {
+        if (isOverallLight && !isOverallDark) return 'light-spring';
+        if (isOverallBright) return 'bright-spring';
+        return 'true-spring';
+      }
+
+      // Fallback logic based on specific combinations
+      if (eyeCategory.includes('light') && hairCategory.includes('light')) {
+        return isOverallWarm ? 'light-spring' : 'light-summer';
+      }
+      
+      if (eyeCategory.includes('dark') && hairCategory.includes('dark')) {
+        return isOverallWarm ? 'dark-autumn' : 'dark-winter';
+      }
+
+      // Default fallback
+      return isOverallWarm ? 'true-autumn' : 'true-winter';
+    }
+
+    // Handle form submission
+    document.getElementById('colourForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      const skinTone = document.getElementById('skinTone').value;
+      const eyeColour = document.getElementById('eyeColour').value;
+      const hairColour = document.getElementById('hairColour').value;
+
+      const season = determineSeasonalPalette(skinTone, eyeColour, hairColour);
+      
+      // Store colors for the result page
+      localStorage.setItem('userColors', JSON.stringify({
+        skin: skinTone,
+        eyes: eyeColour,
+        hair: hairColour
+      }));
+
+      // Redirect to the appropriate season page
+      window.location.href = `${season}.html`;
     });
   </script>
 </body>

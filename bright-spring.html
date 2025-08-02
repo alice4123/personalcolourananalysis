@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bright Spring - Your Color Analysis Results</title>
+  <link rel="stylesheet" href="result-styles.css">
+  <style>
+    :root {
+      --primary-color: #ff9800;
+      --secondary-color: #f57c00;
+      --primary-bg: #fff3e0;
+      --secondary-bg: #ffe0b2;
+      --primary-rgb: 255, 152, 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="result-container">
+    <div class="header">
+      <h1>Bright Spring</h1>
+      <p class="subtitle">Bright, clear, and warm colors</p>
+      <div class="user-colors" id="userColors"></div>
+    </div>
+    
+    <div class="content">
+      <div class="characteristics">
+        <h2>Your Color Characteristics</h2>
+        <div class="char-grid">
+          <div class="char-item">
+            <h3>Temperature</h3>
+            <p>Warm undertones with golden, peachy, or yellow-based colors</p>
+          </div>
+          <div class="char-item">
+            <h3>Contrast</h3>
+            <p>Medium to high contrast with vibrant, energetic coloring</p>
+          </div>
+          <div class="char-item">
+            <h3>Intensity</h3>
+            <p>Bright, clear colors that reflect your lively personality</p>
+          </div>
+          <div class="char-item">
+            <h3>Best Features</h3>
+            <p>Bright blue, green, or hazel eyes, fair to tan skin, blonde to brown hair</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="color-palette">
+        <h2>Your Perfect Color Palette</h2>
+        <div class="palette-grid">
+          <div class="color-swatch" style="background-color: #ffffff" data-color="Bright White"></div>
+          <div class="color-swatch" style="background-color: #212121" data-color="Black Brown"></div>
+          <div class="color-swatch" style="background-color: #ff9800" data-color="Bright Orange"></div>
+          <div class="color-swatch" style="background-color: #ffeb3b" data-color="Golden Yellow"></div>
+          <div class="color-swatch" style="background-color: #f44336" data-color="Coral Red"></div>
+          <div class="color-swatch" style="background-color: #4caf50" data-color="Spring Green"></div>
+          <div class="color-swatch" style="background-color: #00bcd4" data-color="Aqua Blue"></div>
+          <div class="color-swatch" style="background-color: #9c27b0" data-color="Bright Violet"></div>
+          <div class="color-swatch" style="background-color: #ff5722" data-color="Warm Red"></div>
+          <div class="color-swatch" style="background-color: #cddc39" data-color="Lime Green"></div>
+          <div class="color-swatch" style="background-color: #03a9f4" data-color="Clear Blue"></div>
+          <div class="color-swatch" style="background-color: #795548" data-color="Warm Brown"></div>
+        </div>
+      </div>
+
+      <div class="recommendations">
+        <div class="recommendation-section">
+          <h3>Best Colors to Wear</h3>
+          <ul>
+            <li>Golden yellow and bright orange</li>
+            <li>Coral and warm red</li>
+            <li>Spring green and lime</li>
+            <li>Clear aqua and turquoise</li>
+            <li>Bright violet and clear purple</li>
+            <li>Warm browns and camel</li>
+          </ul>
+        </div>
+        
+        <div class="recommendation-section">
+          <h3>Colors to Avoid</h3>
+          <ul>
+            <li>Dusty or muted colors</li>
+            <li>Black (use dark brown instead)</li>
+            <li>Pink-based reds</li>
+            <li>Grey and charcoal</li>
+            <li>Burgundy and wine</li>
+            <li>Olive green</li>
+          </ul>
+        </div>
+        
+        <div class="recommendation-section">
+          <h3>Makeup Recommendations</h3>
+          <ul>
+            <li>Warm-toned foundation with golden undertones</li>
+            <li>Coral or orange-red lipstick</li>
+            <li>Brown or golden eyeliner</li>
+            <li>Peach or coral blush</li>
+            <li>Gold jewelry</li>
+          </ul>
+        </div>
+        
+        <div class="recommendation-section">
+          <h3>Hair Color Suggestions</h3>
+          <ul>
+            <li>Golden blonde</li>
+            <li>Warm brown with highlights</li>
+            <li>Auburn and copper tones</li>
+            <li>Avoid ash tones</li>
+            <li>Warm highlights and lowlights</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <div class="actions">
+      <a href="index.html" class="btn btn-secondary">Take Analysis Again</a>
+      <button onclick="window.print()" class="btn btn-primary">Save Results</button>
+    </div>
+  </div>
+
+  <script>
+    const userColors = JSON.parse(localStorage.getItem('userColors') || '{}');
+    const userColorsDiv = document.getElementById('userColors');
+    
+    if (userColors.skin && userColors.eyes && userColors.hair) {
+      userColorsDiv.innerHTML = `
+        <div class="user-color" style="background-color: ${userColors.skin}" title="Your Skin Tone"></div>
+        <div class="user-color" style="background-color: ${userColors.eyes}" title="Your Eye Color"></div>
+        <div class="user-color" style="background-color: ${userColors.hair}" title="Your Hair Color"></div>
+      `;
+    }
+  </script>
+</body>
+</html>

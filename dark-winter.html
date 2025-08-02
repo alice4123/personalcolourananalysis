@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dark Winter - Your Color Analysis Results</title>
+  <link rel="stylesheet" href="result-styles.css">
+  <style>
+    :root {
+      --primary-color: #263238;
+      --secondary-color: #37474f;
+      --primary-bg: #eceff1;
+      --secondary-bg: #cfd8dc;
+      --primary-rgb: 38, 50, 56;
+    }
+  </style>
+</head>
+<body>
+  <div class="result-container">
+    <div class="header">
+      <h1>Dark Winter</h1>
+      <p class="subtitle">Deep, cool colors with dramatic richness</p>
+      <div class="user-colors" id="userColors"></div>
+    </div>
+    
+    <div class="content">
+      <div class="characteristics">
+        <h2>Your Color Characteristics</h2>
+        <div class="char-grid">
+          <div class="char-item">
+            <h3>Temperature</h3>
+            <p>Cool undertones with some ability to wear deep warm colors</p>
+          </div>
+          <div class="char-item">
+            <h3>Contrast</h3>
+            <p>High contrast with deep, rich coloring</p>
+          </div>
+          <div class="char-item">
+            <h3>Intensity</h3>
+            <p>Deep, saturated colors that match your dramatic presence</p>
+          </div>
+          <div class="char-item">
+            <h3>Best Features</h3>
+            <p>Deep eyes, fair to dark skin, dark hair with rich undertones</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="color-palette">
+        <h2>Your Perfect Color Palette</h2>
+        <div class="palette-grid">
+          <div class="color-swatch" style="background-color: #000000" data-color="True Black"></div>
+          <div class="color-swatch" style="background-color: #FFFFFF" data-color="Pure White"></div>
+          <div class="color-swatch" style="background-color: #1a237e" data-color="Deep Navy"></div>
+          <div class="color-swatch" style="background-color: #4a148c" data-color="Deep Purple"></div>
+          <div class="color-swatch" style="background-color: #b71c1c" data-color="Deep Red"></div>
+          <div class="color-swatch" style="background-color: #1b5e20" data-color="Deep Green"></div>
+          <div class="color-swatch" style="background-color: #006064" data-color="Deep Teal"></div>
+          <div class="color-swatch" style="background-color: #3e2723" data-color="Dark Chocolate"></div>
+          <div class="color-swatch" style="background-color: #880e4f" data-color="Deep Magenta"></div>
+          <div class="color-swatch" style="background-color: #263238" data-color="Charcoal"></div>
+          <div class="color-swatch" style="background-color: #424242" data-color="Anthracite"></div>
+          <div class="color-swatch" style="background-color: #01579b" data-color="Midnight Blue"></div>
+        </div>
+      </div>
+
+      <div class="recommendations">
+        <div class="recommendation-section">
+          <h3>Best Colors to Wear</h3>
+          <ul>
+            <li>Deep navy and midnight blue</li>
+            <li>Rich burgundy and wine</li>
+            <li>Deep emerald and forest green</li>
+            <li>Dark chocolate brown</li>
+            <li>Deep purple and eggplant</li>
+            <li>Charcoal and true black</li>
+          </ul>
+        </div>
+        
+        <div class="recommendation-section">
+          <h3>Colors to Avoid</h3>
+          <ul>
+            <li>Light, pastel colors</li>
+            <li>Orange and coral</li>
+            <li>Golden yellow</li>
+            <li>Light grey</li>
+            <li>Beige and camel</li>
+            <li>Warm, muted colors</li>
+          </ul>
+        </div>
+        
+        <div class="recommendation-section">
+          <h3>Makeup Recommendations</h3>
+          <ul>
+            <li>Deep, rich foundation tones</li>
+            <li>Deep berry or wine lipstick</li>
+            <li>Black or deep brown eyeliner</li>
+            <li>Rich plum or berry blush</li>
+            <li>Silver or platinum jewelry</li>
+          </ul>
+        </div>
+        
+        <div class="recommendation-section">
+          <h3>Hair Color Suggestions</h3>
+          <ul>
+            <li>Natural dark brown or black</li>
+            <li>Deep espresso brown</li>
+            <li>Blue-black for dramatic look</li>
+            <li>Avoid warm highlights</li>
+            <li>Cool ash tones only</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <div class="actions">
+      <a href="index.html" class="btn btn-secondary">Take Analysis Again</a>
+      <button onclick="window.print()" class="btn btn-primary">Save Results</button>
+    </div>
+  </div>
+
+  <script>
+    const userColors = JSON.parse(localStorage.getItem('userColors') || '{}');
+    const userColorsDiv = document.getElementById('userColors');
+    
+    if (userColors.skin && userColors.eyes && userColors.hair) {
+      userColorsDiv.innerHTML = `
+        <div class="user-color" style="background-color: ${userColors.skin}" title="Your Skin Tone"></div>
+        <div class="user-color" style="background-color: ${userColors.eyes}" title="Your Eye Color"></div>
+        <div class="user-color" style="background-color: ${userColors.hair}" title="Your Hair Color"></div>
+      `;
+    }
+  </script>
+</body>
+</html>

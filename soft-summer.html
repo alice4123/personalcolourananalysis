@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Soft Summer - Your Color Analysis Results</title>
+  <link rel="stylesheet" href="result-styles.css">
+  <style>
+    :root {
+      --primary-color: #78909c;
+      --secondary-color: #546e7a;
+      --primary-bg: #eceff1;
+      --secondary-bg: #cfd8dc;
+      --primary-rgb: 120, 144, 156;
+    }
+  </style>
+</head>
+<body>
+  <div class="result-container">
+    <div class="header">
+      <h1>Soft Summer</h1>
+      <p class="subtitle">Muted, gentle, and cool colors</p>
+      <div class="user-colors" id="userColors"></div>
+    </div>
+    
+    <div class="content">
+      <div class="characteristics">
+        <h2>Your Color Characteristics</h2>
+        <div class="char-grid">
+          <div class="char-item">
+            <h3>Temperature</h3>
+            <p>Cool undertones with muted, ash-based colors</p>
+          </div>
+          <div class="char-item">
+            <h3>Contrast</h3>
+            <p>Low contrast with soft, blended coloring</p>
+          </div>
+          <div class="char-item">
+            <h3>Intensity</h3>
+            <p>Muted, gentle colors that create soft harmony</p>
+          </div>
+          <div class="char-item">
+            <h3>Best Features</h3>
+            <p>Grey, grey-green, or hazel eyes, fair to tan skin, ash hair</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="color-palette">
+        <h2>Your Perfect Color Palette</h2>
+        <div class="palette-grid">
+          <div class="color-swatch" style="background-color: #fafafa" data-color="Soft White"></div>
+          <div class="color-swatch" style="background-color: #424242" data-color="Soft Black"></div>
+          <div class="color-swatch" style="background-color: #78909c" data-color="Blue Grey"></div>
+          <div class="color-swatch" style="background-color: #90a4ae" data-color="Dusty Blue"></div>
+          <div class="color-swatch" style="background-color: #a1887f" data-color="Mushroom"></div>
+          <div class="color-swatch" style="background-color: #9ccc65" data-color="Sage Green"></div>
+          <div class="color-swatch" style="background-color: #ba68c8" data-color="Dusty Purple"></div>
+          <div class="color-swatch" style="background-color: #f06292" data-color="Dusty Rose"></div>
+          <div class="color-swatch" style="background-color: #81c784" data-color="Mint Green"></div>
+          <div class="color-swatch" style="background-color: #9e9e9e" data-color="Soft Grey"></div>
+          <div class="color-swatch" style="background-color: #bcaaa4" data-color="Taupe"></div>
+          <div class="color-swatch" style="background-color: #b39ddb" data-color="Soft Lavender"></div>
+        </div>
+      </div>
+
+      <div class="recommendations">
+        <div class="recommendation-section">
+          <h3>Best Colors to Wear</h3>
+          <ul>
+            <li>Blue-greys and dusty blues</li>
+            <li>Sage green and mint</li>
+            <li>Dusty rose and mauve</li>
+            <li>Soft lavender and dusty purple</li>
+            <li>Mushroom and taupe</li>
+            <li>Soft greys and off-white</li>
+          </ul>
+        </div>
+        
+        <div class="recommendation-section">
+          <h3>Colors to Avoid</h3>
+          <ul>
+            <li>Bright, intense colors</li>
+            <li>True black (use soft black)</li>
+            <li>Orange and warm yellows</li>
+            <li>Hot pink and fuchsia</li>
+            <li>Bright greens</li>
+            <li>Pure white (too harsh)</li>
+          </ul>
+        </div>
+        
+        <div class="recommendation-section">
+          <h3>Makeup Recommendations</h3>
+          <ul>
+            <li>Cool, muted foundation</li>
+            <li>Dusty rose or berry lipstick</li>
+            <li>Soft brown or grey eyeliner</li>
+            <li>Soft rose or mauve blush</li>
+            <li>Silver or pewter jewelry</li>
+          </ul>
+        </div>
+        
+        <div class="recommendation-section">
+          <h3>Hair Color Suggestions</h3>
+          <ul>
+            <li>Ash blonde</li>
+            <li>Ash brown</li>
+            <li>Mousy brown</li>
+            <li>Cool grey highlights</li>
+            <li>Avoid warm tones</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <div class="actions">
+      <a href="index.html" class="btn btn-secondary">Take Analysis Again</a>
+      <button onclick="window.print()" class="btn btn-primary">Save Results</button>
+    </div>
+  </div>
+
+  <script>
+    const userColors = JSON.parse(localStorage.getItem('userColors') || '{}');
+    const userColorsDiv = document.getElementById('userColors');
+    
+    if (userColors.skin && userColors.eyes && userColors.hair) {
+      userColorsDiv.innerHTML = `
+        <div class="user-color" style="background-color: ${userColors.skin}" title="Your Skin Tone"></div>
+        <div class="user-color" style="background-color: ${userColors.eyes}" title="Your Eye Color"></div>
+        <div class="user-color" style="background-color: ${userColors.hair}" title="Your Hair Color"></div>
+      `;
+    }
+  </script>
+</body>
+</html>
