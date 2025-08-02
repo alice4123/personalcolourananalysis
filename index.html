@@ -16,28 +16,19 @@
   </div>
 
 
-  <h2>Select your skin tone</h2>
+  <h2>Select your colours</h2>
 
-  <form action="/action_page.php">
-    <label for="favcolor">Select your favorite color:</label>
-    <input type="color" id="favcolor" name="favcolor" value="#ff0000">
-    <p><input type="submit" value="Submit"></p>
-  </form>
+  <form id = "colourForm">
+    <label for="skinTone">Skin Tone:</label>
+    <input type="color" id="skinTone" name="skinTone" value="#ff0000">
 
-  <h2>Select your eye colour</h2>
+    <label for="eyeColour">Eye colour:</label>
+    <input type="color" id="eyeColour" name="eyeColour" value="#ff0000">
 
-  <form action="/action_page.php">
-    <label for="favcolor">Select your favorite color:</label>
-    <input type="color" id="favcolor" name="favcolor" value="#ff0000">
-    <p><input type="submit" value="Submit"></p>
-  </form>
+    <label for="hairColour">Hair colour:</label>
+    <input type="color" id="hairColour" name="hairColour" value="#ff0000">
 
-  <h2>Select your hair colour</h2>
-
-  <form action="/action_page.php">
-    <label for="favcolor">Select your favorite color:</label>
-    <input type="color" id="favcolor" name="favcolor" value="#ff0000">
-    <p><input type="submit" value="Submit"></p>
+    <button type="submit">Submit</button>
   </form>
 
   <script>
@@ -52,6 +43,25 @@
           imagePreview.src = reader.result;
         };
         reader.readAsDataURL(file);
+      }
+    });
+
+    // Handle form submit and redirect
+    document.getElementById('colourForm').addEventListener('submit', function(event){
+
+      event.preventDefault(); // Stop form from refreshing page
+
+      const skin = document.getElementById('skinTone').value;
+      const eyes = document.getElementById('eyeColour').value;
+      const hair = document.getElementById('hairColour').value;
+
+      // Example logic (you can customize this)
+      if (skin === "#fcd5b4" && eyes === "#6fa8dc" && hair === "#4b3832") {
+        window.location.href = "warm.html";
+      } else if (skin === "#ffe0bd" && eyes === "#000000") {
+        window.location.href = "cool.html";
+      } else {
+        window.location.href = "neutral.html";
       }
     });
   </script>
